@@ -1,0 +1,15 @@
+# Sistem Operasi
+.DS_Store        # macOS
+Thumbs.db        # Windows
+desktop.ini      # Windows
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# Fail sementara
+*.swp
+*.swo
+*~
+*.tmp
+*.log
