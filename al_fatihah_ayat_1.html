@@ -1,37 +1,3 @@
-Saya nampak anda mahu mengekalkan struktur asal tetapi **menambah flex box baru yang sejajar dengan kotak kalimah sedia ada**. Berdasarkan perbincangan 5 asas sebelum ini, kita akan tambah dua kotak analisis baru:
-
-1. **Kotak Makhraj** – tempat keluar setiap huruf
-2. **Kotak Sifat** – sifat setiap huruf (berlawanan & tunggal)
-
-Ketiga-tiga kotak ini akan disusun **sejajar secara mendatar** dalam satu flex container untuk setiap kalimah.
-
----
-
-## Pelan Visual untuk Ayat 1 (Basmalah)
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                      KALIMAH 1: بِسْمِ                          │
-├──────────────┬──────────────────┬───────────────────────────────┤
-│   TAJWID     │     MAKHRAJ      │           SIFAT                │
-│  (Hukum)     │ (Tempat Keluar)  │   (Sifat Huruf)               │
-├──────────────┼──────────────────┼───────────────────────────────┤
-│ • Izhar      │ ب: Syafatain     │ ب: Jahr, Syiddah, Istifal,    │
-│   Sin sukun  │   (kedua bibir)  │    Infitah, Idzlaq            │
-│   jelas      │                  │                               │
-│              │ س: Asnan (hujung │ س: Hams, Rakhawah, Istifal,   │
-│              │   lidah + gigi)  │    Infitah, Safir              │
-│              │                  │                               │
-│              │ م: Syafatain     │ م: Jahr, Rakhawah, Istifal,    │
-│              │                  │    Infitah, Idzlaq             │
-└──────────────┴──────────────────┴───────────────────────────────┘
-```
-
----
-
-## Kod HTML untuk `al_fatihah_ayat_1.html` (ditambah Makhraj & Sifat)
-
-```html
 <!DOCTYPE html>
 <html lang="ms" dir="rtl">
 <head>
