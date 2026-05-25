@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Al-Fatihah Ayat 5 - Analisis Tajwid</title>
+    <title>Al-Fatihah Ayat 5 - Analisis Tajwid Lengkap</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -21,49 +21,75 @@
             color: #2c3e50;
             direction: rtl;
         }
-        .container {
+        .kalimah-group {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
+            gap: 10px;
+            margin: 15px 0;
             direction: rtl;
         }
-        .kalimah-box {
+        .kalimah-box, .makhraj-box, .sifat-box {
             background-color: white;
             border: 1px solid #ddd;
             border-radius: 8px;
-            padding: 15px;
-            width: 200px;
+            padding: 12px 10px;
+            min-width: 140px;
+            max-width: 180px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-        .tajwid {
-            font-size: 0.75em;
-            color: #c0392b;
+        .kalimah-box {
+            border-top: 3px solid #c0392b;
+        }
+        .makhraj-box {
+            border-top: 3px solid #2980b9;
+        }
+        .sifat-box {
+            border-top: 3px solid #8e44ad;
+        }
+        .box-title {
+            font-size: 0.7em;
             font-weight: bold;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 1px dashed #ddd;
+            width: 100%;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+        }
+        .kalimah-box .box-title { color: #c0392b; }
+        .makhraj-box .box-title { color: #2980b9; }
+        .sifat-box .box-title { color: #8e44ad; }
+        .tajwid, .makhraj, .sifat {
+            font-size: 0.7em;
+            font-weight: bold;
+            margin-bottom: 6px;
             text-align: right;
             list-style-position: inside;
             padding: 0;
             width: 100%;
         }
-        .tajwid li {
+        .tajwid li, .makhraj li, .sifat li {
             margin: 2px 0;
+            line-height: 1.4;
         }
+        .tajwid { color: #c0392b; }
+        .makhraj { color: #2980b9; }
+        .sifat { color: #8e44ad; }
         .arab-kalimah {
             font-family: 'Traditional Arabic', 'Scheherazade New', serif;
-            font-size: 2.5em;
+            font-size: 2.2em;
             margin: 5px 0;
             color: #2c3e50;
         }
         .makna {
-            font-size: 0.9em;
+            font-size: 0.85em;
             color: #27ae60;
             font-weight: bold;
-            margin-top: 5px;
+            margin-top: 4px;
             text-align: center;
         }
         .terjemahan-penuh {
@@ -77,23 +103,44 @@
             font-weight: bold;
             border-right: 5px solid #3498db;
         }
-        .pemisah {
-            font-size: 1.5em;
-            margin: 10px 0;
-            color: #7f8c8d;
-        }
         hr {
             border: 0;
             height: 1px;
             background: #ddd;
             margin: 20px 0;
         }
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 10px 0;
+            font-size: 0.8em;
+            font-family: 'Courier New', monospace;
+        }
+        .legend span {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
 
     <h1>📖 Surah Al-Fatihah – Ayat 5</h1>
-    <p style="direction: rtl; font-size: 1.2em;">Analisis Tajwid, Makna Per-Kata, dan Terjemahan</p>
+    <p style="direction: rtl; font-size: 1.1em;">Analisis Tajwid · Makhraj · Sifat Huruf</p>
+
+    <!-- Petunjuk Warna -->
+    <div class="legend">
+        <span><span class="legend-dot" style="background:#c0392b;"></span> Tajwid (Hukum)</span>
+        <span><span class="legend-dot" style="background:#2980b9;"></span> Makhraj (Tempat Keluar)</span>
+        <span><span class="legend-dot" style="background:#8e44ad;"></span> Sifat Huruf</span>
+    </div>
 
     <!-- Ayat Penuh -->
     <div class="ayat-penuh">
@@ -102,60 +149,147 @@
 
     <hr>
 
-    <!-- Analisis Kalimah Demi Kalimah -->
-    <h2>🔍 Analisis Kalimah Demi Kalimah</h2>
+    <h2>🔍 Analisis Setiap Kalimah</h2>
 
-    <div class="container">
-        <!-- Kalimah 1: إِيَّاكَ -->
+    <!-- ===================== KALIMAH 1: إِيَّاكَ ===================== -->
+    <div class="kalimah-group">
         <div class="kalimah-box">
+            <div class="box-title">📐 TAJWID</div>
             <ul class="tajwid">
                 <li><strong>Mad Thabi'i (pertama)</strong>: Hamzah berbaris kasrah diikuti Ya sukun → 2 harakat.</li>
                 <li><strong>Tasydid pada Ya</strong>: Ya bertanda syaddah berbaris fathah, ditekan 2 harakat.</li>
                 <li><strong>Mad Thabi'i (kedua)</strong>: Ya berbaris fathah diikuti Alif → 2 harakat.</li>
             </ul>
-            <div class="pemisah">⬇️</div>
-            <div class="arab-kalimah">إِيَّاكَ</div>
-            <div class="pemisah">⬇️</div>
-            <div class="makna">Hanya kepada-Mu</div>
         </div>
+        <div class="makhraj-box">
+            <div class="box-title">🗣️ MAKHRAJ</div>
+            <ul class="makhraj">
+                <li><strong>ء</strong>: Halq (pangkal tekak paling dalam).</li>
+                <li><strong>ي</strong>: Lisan (tengah lidah – lelangit).</li>
+                <li><strong>ا</strong>: Jauf (rongga mulut) – mad.</li>
+                <li><strong>ك</strong>: Lisan (pangkal lidah – lelangit lembut).</li>
+            </ul>
+        </div>
+        <div class="sifat-box">
+            <div class="box-title">📝 SIFAT HURUF</div>
+            <ul class="sifat">
+                <li><strong>ء</strong>: Jahr, Syiddah, Istifal, Infitah.</li>
+                <li><strong>ي</strong>: Jahr, Rakhawah, Istifal, Infitah.</li>
+                <li><strong>ا</strong>: Jahr, Rakhawah, Istifal, Infitah.</li>
+                <li><strong>ك</strong>: Hams, Syiddah, Istifal, Infitah.</li>
+            </ul>
+        </div>
+        <div style="width:100%; text-align:center; margin:5px 0;">
+            <div class="arab-kalimah" style="display:inline-block; margin:0 10px;">إِيَّاكَ</div>
+            <div class="makna" style="display:inline-block;">Hanya kepada-Mu</div>
+        </div>
+    </div>
 
-        <!-- Kalimah 2: نَعْبُدُ -->
+    <!-- ===================== KALIMAH 2: نَعْبُدُ ===================== -->
+    <div class="kalimah-group">
         <div class="kalimah-box">
+            <div class="box-title">📐 TAJWID</div>
             <ul class="tajwid">
                 <li><strong>Izhar</strong>: Ain (ع) sukun disebut jelas tanpa dengung.</li>
                 <li>Nun fathah, Ba dan Dal dhommah, semuanya jelas.</li>
             </ul>
-            <div class="pemisah">⬇️</div>
-            <div class="arab-kalimah">نَعْبُدُ</div>
-            <div class="pemisah">⬇️</div>
-            <div class="makna">Kami menyembah</div>
         </div>
+        <div class="makhraj-box">
+            <div class="box-title">🗣️ MAKHRAJ</div>
+            <ul class="makhraj">
+                <li><strong>ن</strong>: Lisan (hujung lidah – gusi atas).</li>
+                <li><strong>ع</strong>: Halq (tengah kerongkong).</li>
+                <li><strong>ب</strong>: Syafatain (kedua bibir rapat).</li>
+                <li><strong>د</strong>: Lisan (hujung lidah – gusi atas).</li>
+            </ul>
+        </div>
+        <div class="sifat-box">
+            <div class="box-title">📝 SIFAT HURUF</div>
+            <ul class="sifat">
+                <li><strong>ن</strong>: Jahr, Rakhawah, Istifal, Infitah, Idzlaq.</li>
+                <li><strong>ع</strong>: Jahr, Rakhawah, Istifal, Infitah.</li>
+                <li><strong>ب</strong>: Jahr, Syiddah, Istifal, Infitah, Idzlaq.</li>
+                <li><strong>د</strong>: Jahr, Syiddah, Istifal, Infitah, Qalqalah.</li>
+            </ul>
+        </div>
+        <div style="width:100%; text-align:center; margin:5px 0;">
+            <div class="arab-kalimah" style="display:inline-block; margin:0 10px;">نَعْبُدُ</div>
+            <div class="makna" style="display:inline-block;">Kami menyembah</div>
+        </div>
+    </div>
 
-        <!-- Kalimah 3: وَإِيَّاكَ -->
+    <!-- ===================== KALIMAH 3: وَإِيَّاكَ ===================== -->
+    <div class="kalimah-group">
         <div class="kalimah-box">
+            <div class="box-title">📐 TAJWID</div>
             <ul class="tajwid">
                 <li><strong>Wau Athaf</strong>: Sambungan "dan".</li>
                 <li><strong>Mad Thabi'i (pertama)</strong>: Hamzah kasrah diikuti Ya sukun → 2 harakat.</li>
                 <li><strong>Tasydid pada Ya</strong>: Ya bersyaddah berbaris fathah, ditekan 2 harakat.</li>
                 <li><strong>Mad Thabi'i (kedua)</strong>: Ya berbaris fathah diikuti Alif → 2 harakat.</li>
             </ul>
-            <div class="pemisah">⬇️</div>
-            <div class="arab-kalimah">وَإِيَّاكَ</div>
-            <div class="pemisah">⬇️</div>
-            <div class="makna">Dan hanya kepada-Mu</div>
         </div>
+        <div class="makhraj-box">
+            <div class="box-title">🗣️ MAKHRAJ</div>
+            <ul class="makhraj">
+                <li><strong>و</strong>: Syafatain (kedua bibir dimuncungkan).</li>
+                <li><strong>ء</strong>: Halq (pangkal tekak paling dalam).</li>
+                <li><strong>ي</strong>: Lisan (tengah lidah – lelangit).</li>
+                <li><strong>ا</strong>: Jauf (rongga mulut) – mad.</li>
+                <li><strong>ك</strong>: Lisan (pangkal lidah – lelangit lembut).</li>
+            </ul>
+        </div>
+        <div class="sifat-box">
+            <div class="box-title">📝 SIFAT HURUF</div>
+            <ul class="sifat">
+                <li><strong>و</strong>: Jahr, Rakhawah, Istifal, Infitah.</li>
+                <li><strong>ء</strong>: Jahr, Syiddah, Istifal, Infitah.</li>
+                <li><strong>ي</strong>: Jahr, Rakhawah, Istifal, Infitah.</li>
+                <li><strong>ا</strong>: Jahr, Rakhawah, Istifal, Infitah.</li>
+                <li><strong>ك</strong>: Hams, Syiddah, Istifal, Infitah.</li>
+            </ul>
+        </div>
+        <div style="width:100%; text-align:center; margin:5px 0;">
+            <div class="arab-kalimah" style="display:inline-block; margin:0 10px;">وَإِيَّاكَ</div>
+            <div class="makna" style="display:inline-block;">Dan hanya kepada-Mu</div>
+        </div>
+    </div>
 
-        <!-- Kalimah 4: نَسْتَعِينُ -->
+    <!-- ===================== KALIMAH 4: نَسْتَعِينُ ===================== -->
+    <div class="kalimah-group">
         <div class="kalimah-box">
+            <div class="box-title">📐 TAJWID</div>
             <ul class="tajwid">
                 <li><strong>Izhar</strong>: Sin (س) sukun disebut jelas tanpa dengung.</li>
                 <li><strong>Mad Thabi'i</strong>: Ain (ع) kasrah diikuti Ya sukun → 2 harakat.</li>
                 <li><strong>Mad 'Arid Lissukun</strong> (ketika waqaf): Nun akhir dhommah dimatikan, panjang 2/4/6 harakat.</li>
             </ul>
-            <div class="pemisah">⬇️</div>
-            <div class="arab-kalimah">نَسْتَعِينُ</div>
-            <div class="pemisah">⬇️</div>
-            <div class="makna">Kami memohon pertolongan</div>
+        </div>
+        <div class="makhraj-box">
+            <div class="box-title">🗣️ MAKHRAJ</div>
+            <ul class="makhraj">
+                <li><strong>ن</strong>: Lisan (hujung lidah – gusi atas).</li>
+                <li><strong>س</strong>: Asnan (hujung lidah – gigi bawah).</li>
+                <li><strong>ت</strong>: Lisan (hujung lidah – gusi atas).</li>
+                <li><strong>ع</strong>: Halq (tengah kerongkong).</li>
+                <li><strong>ي</strong>: Jauf (rongga mulut) – mad.</li>
+                <li><strong>ن</strong>: Lisan (hujung lidah – gusi atas).</li>
+            </ul>
+        </div>
+        <div class="sifat-box">
+            <div class="box-title">📝 SIFAT HURUF</div>
+            <ul class="sifat">
+                <li><strong>ن</strong>: Jahr, Rakhawah, Istifal, Infitah, Idzlaq.</li>
+                <li><strong>س</strong>: Hams, Rakhawah, Istifal, Infitah, Safir.</li>
+                <li><strong>ت</strong>: Hams, Syiddah, Istifal, Infitah.</li>
+                <li><strong>ع</strong>: Jahr, Rakhawah, Istifal, Infitah.</li>
+                <li><strong>ي</strong>: Jahr, Rakhawah, Istifal, Infitah.</li>
+                <li><strong>ن</strong>: Jahr, Rakhawah, Istifal, Infitah, Idzlaq.</li>
+            </ul>
+        </div>
+        <div style="width:100%; text-align:center; margin:5px 0;">
+            <div class="arab-kalimah" style="display:inline-block; margin:0 10px;">نَسْتَعِينُ</div>
+            <div class="makna" style="display:inline-block;">Kami memohon pertolongan</div>
         </div>
     </div>
 
@@ -165,7 +299,7 @@
     </div>
 
     <hr>
-    <p style="direction: rtl; color: #7f8c8d;">Analisis ringkas ini berdasarkan hukum tajwid asas yang terdapat dalam Ayat 5 Surah Al-Fatihah.</p>
+    <p style="direction: rtl; color: #7f8c8d;">Analisis lengkap merangkumi Tajwid, Makhraj, dan Sifat Huruf bagi setiap kalimah dalam Ayat 5 Surah Al-Fatihah.</p>
 
 </body>
 </html>
