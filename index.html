@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al‑Fatihah – Analisis Tajwid Per Ayat</title>
+    <!-- Font: Traditional Arabic for Arabic text, monospace for UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Light theme (default) */
+            --bg: #ffffff;
+            --bg-card: #fafafa;
+            --text: #1e1e1e;
+            --accent: #2c3e50;
+            --tab-bg: #e0e0e0;
+            --tab-active: #2c3e50;
+            --tab-active-text: #ffffff;
+            --border: #ccc;
+            --shadow: rgba(0,0,0,0.06);
+            --tajwid-color: #b34b4b;
+            --makna-color: #3a7d44;
+            --arab-font: 'Scheherazade New', 'Traditional Arabic', serif;
+            --ui-font: 'Courier New', Courier, monospace;
+        }
+
+        body.dark {
+            --bg: #1e1e1e;
+            --bg-card: #2a2a2a;
+            --text: #e0e0e0;
+            --accent: #a0c4ff;
+            --tab-bg: #3a3a3a;
+            --tab-active: #a0c4ff;
+            --tab-active-text: #1e1e1e;
+            --border: #444;
+            --shadow: rgba(255,255,255,0.05);
+            --tajwid-color: #ff8c8c;
+            --makna-color: #7ed687;
+        }
+
+        body.coffee {
+            --bg: #f5efe0;
+            --bg-card: #fff8f0;
+            --text: #4a3728;
+            --accent: #6f4e37;
+            --tab-bg: #e7d7c1;
+            --tab-active: #6f4e37;
+            --tab-active-text: #fff8f0;
+            --border: #c2a381;
+            --shadow: rgba(0,0,0,0.08);
+            --tajwid-color: #9c4f4f;
+            --makna-color: #4a7c52;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--ui-font);
+            transition: background-color 0.3s, color 0.3s;
+            padding: 1rem;
+            text-align: center;
+            direction: rtl;
+        }
+
+        /* Theme buttons */
+        .theme-bar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            direction: ltr;
+        }
+        .theme-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 2.5rem;
+            height: 2.5rem;
+            cursor: pointer;
+            font-size: 1.3rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s;
+            color: var(--text);
+        }
+        .theme-btn:hover {
+            transform: scale(1.1);
+        }
+
+        h1 {
+            font-family: var(--ui-font);
+            font-size: 1.8rem;
+            color: var(--accent);
+            margin-bottom: 0.25rem;
+        }
+        .subtitle {
+            font-size: 0.9rem;
+            color: var(--text);
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem;
+            margin: 1rem 0;
+        }
+        .tab-btn {
+            background: var(--tab-bg);
+            border: none;
+            color: var(--text);
+            font-family: var(--ui-font);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s, color 0.2s;
+            border: 1px solid var(--border);
+        }
+        .tab-btn.active {
+            background: var(--tab-active);
+            color: var(--tab-active-text);
+        }
+
+        /* Content area */
+        .content-area {
+            background: var(--bg-card);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-top: 0.5rem;
+            transition: background 0.3s;
+        }
+
+        .ayat-content {
+            display: none;
+        }
+        .ayat-content.active {
+            display: block;
+        }
+
+        /* Ayat styling (shared from individual files, but using variables) */
+        .ayat-penuh {
+            font-family: var(--arab-font);
+            font-size: 2.8em;
+            margin: 0.5rem 0 1rem;
+            color: var(--accent);
+            direction: rtl;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+            direction: rtl;
+        }
+        .kalimah-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 0.8rem;
+            padding: 1rem;
+            min-width: 150px;
+            max-width: 200px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .tajwid {
+            font-size: 0.7rem;
+            color: var(--tajwid-color);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-align: right;
+            list-style-position: inside;
+            padding: 0;
+            width: 100%;
+            font-family: var(--ui-font);
+        }
+        .tajwid li {
+            margin: 0.15rem 0;
+        }
+        .arab-kalimah {
+            font-family: var(--arab-font);
+            font-size: 2.2em;
+            margin: 0.3rem 0;
+            color: var(--accent);
+        }
+        .makna {
+            font-size: 0.9rem;
+            color: var(--makna-color);
+            font-weight: bold;
+            margin-top: 0.3rem;
+            font-family: var(--ui-font);
+        }
+        .terjemahan-penuh {
+            font-size: 1.1rem;
+            background: var(--bg-card);
+            padding: 0.8rem 1.2rem;
+            border-radius: 0.8rem;
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--accent);
+            font-weight: bold;
+            border-right: 4px solid var(--accent);
+            font-family: var(--ui-font);
+        }
+        .pemisah {
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+            color: var(--accent);
+            opacity: 0.6;
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            background: var(--border);
+            margin: 1.2rem 0;
+        }
+        .footnote {
+            color: var(--text);
+            opacity: 0.7;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body class="light">
+
+    <!-- Theme toggle icons -->
+    <div class="theme-bar">
+        <button class="theme-btn" id="theme-light" title="Day‑light">☀️</button>
+        <button class="theme-btn" id="theme-dark" title="Dark‑night">🌙</button>
+        <button class="theme-btn" id="theme-coffee" title="Beige Coffee">☕</button>
+    </div>
+
+    <h1>📖 Surah Al‑Fatihah – Analisis Tajwid</h1>
+    <div class="subtitle">Makna per kata | Hukum tajwid | Terjemahan penuh</div>
+
+    <!-- Tab buttons -->
+    <div class="tabs">
+        <button class="tab-btn active" data-ayat="1">Ayat 1</button>
+        <button class="tab-btn" data-ayat="2">Ayat 2</button>
+        <button class="tab-btn" data-ayat="3">Ayat 3</button>
+        <button class="tab-btn" data-ayat="4">Ayat 4</button>
+        <button class="tab-btn" data-ayat="5">Ayat 5</button>
+        <button class="tab-btn" data-ayat="6">Ayat 6</button>
+        <button class="tab-btn" data-ayat="7">Ayat 7</button>
+    </div>
+
+    <!-- Content area where ayat content will be displayed -->
+    <div class="content-area" id="contentArea">
+        <!-- Ayat 1 -->
+        <div class="ayat-content active" id="ayat-1">
+            <div class="ayat-penuh">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</div>
+            <hr>
+            <div class="container">
+                <div class="kalimah-box"><ul class="tajwid"><li>Izhar: س sukun jelas tanpa dengung.</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">بِسْمِ</div><div class="pemisah">⬇️</div><div class="makna">Dengan nama</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Hamzatul Wasl digugurkan.</li><li>Idgham Syamsi pada lam.</li><li>Lam Tarqiq (nipis).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">ٱللَّهِ</div><div class="pemisah">⬇️</div><div class="makna">Allah</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Hamzatul Wasl digugurkan.</li><li>Idgham Syamsi pada ر.</li><li>Ra Tafkhim (tebal).</li><li>Mad Thabi'i (ح+alif).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">ٱلرَّحْمَـٰنِ</div><div class="pemisah">⬇️</div><div class="makna">Yang Maha Pemurah</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Hamzatul Wasl digugurkan.</li><li>Idgham Syamsi pada ر.</li><li>Ra Tafkhim.</li><li>Mad Thabi'i (ح+ي).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">ٱلرَّحِيمِ</div><div class="pemisah">⬇️</div><div class="makna">Lagi Maha Mengasihani</div></div>
+            </div>
+            <div class="terjemahan-penuh">✨ Dengan nama Allah, Yang Maha Pemurah, lagi Maha Mengasihani.</div>
+            <hr><div class="footnote">Ayat 1 · Basmalah</div>
+        </div>
+
+        <!-- Ayat 2 -->
+        <div class="ayat-content" id="ayat-2">
+            <div class="ayat-penuh">ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ</div>
+            <hr>
+            <div class="container">
+                <div class="kalimah-box"><ul class="tajwid"><li>Hamzatul Wasl digugurkan.</li><li>Idgham Syamsi pada ح.</li><li>Mad Thabi'i (ح+ا).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">ٱلْحَمْدُ</div><div class="pemisah">⬇️</div><div class="makna">Segala puji</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Lam Tarqiq (didahului kasrah).</li><li>Syaddah dua lam.</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">لِلَّهِ</div><div class="pemisah">⬇️</div><div class="makna">Bagi Allah</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Ra Tafkhim.</li><li>Ba syaddah (tekanan).</li><li>Mad Thabi'i (بِّي).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">رَبِّ</div><div class="pemisah">⬇️</div><div class="makna">Tuhan</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Hamzatul Wasl digugurkan.</li><li>Idgham Syamsi pada ع.</li><li>Mad Thabi'i (ع+alif).</li><li>Mad 'Arid Lissukun (waqaf).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">ٱلْعَـٰلَمِينَ</div><div class="pemisah">⬇️</div><div class="makna">Sekalian alam</div></div>
+            </div>
+            <div class="terjemahan-penuh">✨ Segala puji bagi Allah, Tuhan yang memelihara dan mentadbir sekalian alam.</div>
+            <hr><div class="footnote">Ayat 2</div>
+        </div>
+
+        <!-- Ayat 3 -->
+        <div class="ayat-content" id="ayat-3">
+            <div class="ayat-penuh">ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</div>
+            <hr>
+            <div class="container">
+                <div class="kalimah-box"><ul class="tajwid"><li>Hamzatul Wasl digugurkan.</li><li>Idgham Syamsi pada ر.</li><li>Ra Tafkhim.</li><li>Mad Thabi'i (ح+alif).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">ٱلرَّحْمَـٰنِ</div><div class="pemisah">⬇️</div><div class="makna">Yang Maha Pemurah</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Hamzatul Wasl digugurkan.</li><li>Idgham Syamsi pada ر.</li><li>Ra Tafkhim.</li><li>Mad Thabi'i (ح+ي).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">ٱلرَّحِيمِ</div><div class="pemisah">⬇️</div><div class="makna">Lagi Maha Mengasihani</div></div>
+            </div>
+            <div class="terjemahan-penuh">✨ Yang Maha Pemurah, lagi Maha Mengasihani.</div>
+            <hr><div class="footnote">Ayat 3</div>
+        </div>
+
+        <!-- Ayat 4 -->
+        <div class="ayat-content" id="ayat-4">
+            <div class="ayat-penuh">مَٰلِكِ يَوْمِ ٱلدِّينِ</div>
+            <hr>
+            <div class="container">
+                <div class="kalimah-box"><ul class="tajwid"><li>Mad Thabi'i (م+alif).</li><li>Lam & kaf jelas.</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">مَٰلِكِ</div><div class="pemisah">⬇️</div><div class="makna">Yang Menguasai</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Harf Lin (يَوْ).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">يَوْمِ</div><div class="pemisah">⬇️</div><div class="makna">Hari</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Hamzatul Wasl digugurkan.</li><li>Idgham Syamsi pada د.</li><li>Mad Thabi'i (دِّي).</li><li>Mad 'Arid Lissukun (waqaf).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">ٱلدِّينِ</div><div class="pemisah">⬇️</div><div class="makna">Pembalasan (hari Akhirat)</div></div>
+            </div>
+            <div class="terjemahan-penuh">✨ Yang Menguasai pemerintahan hari Pembalasan (hari Akhirat).</div>
+            <hr><div class="footnote">Ayat 4</div>
+        </div>
+
+        <!-- Ayat 5 -->
+        <div class="ayat-content" id="ayat-5">
+            <div class="ayat-penuh">إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ</div>
+            <hr>
+            <div class="container">
+                <div class="kalimah-box"><ul class="tajwid"><li>Mad Thabi'i (إِي).</li><li>Ya syaddah.</li><li>Mad Thabi'i (يَّا).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">إِيَّاكَ</div><div class="pemisah">⬇️</div><div class="makna">Hanya kepada-Mu</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Izhar (عْ jelas).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">نَعْبُدُ</div><div class="pemisah">⬇️</div><div class="makna">Kami menyembah</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Wau Athaf.</li><li>Mad Thabi'i (إِي).</li><li>Ya syaddah.</li><li>Mad Thabi'i (يَّا).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">وَإِيَّاكَ</div><div class="pemisah">⬇️</div><div class="makna">Dan hanya kepada-Mu</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Izhar (سْ jelas).</li><li>Mad Thabi'i (عِي).</li><li>Mad 'Arid Lissukun (waqaf).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">نَسْتَعِينُ</div><div class="pemisah">⬇️</div><div class="makna">Kami memohon pertolongan</div></div>
+            </div>
+            <div class="terjemahan-penuh">✨ Engkaulah sahaja (Ya Allah) Yang Kami sembah, dan kepada Engkaulah sahaja kami memohon pertolongan.</div>
+            <hr><div class="footnote">Ayat 5</div>
+        </div>
+
+        <!-- Ayat 6 -->
+        <div class="ayat-content" id="ayat-6">
+            <div class="ayat-penuh">ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ</div>
+            <hr>
+            <div class="container">
+                <div class="kalimah-box"><ul class="tajwid"><li>Hamzatul Wasl digugurkan.</li><li>Mad Thabi'i (نَا).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">ٱهْدِنَا</div><div class="pemisah">⬇️</div><div class="makna">Tunjukilah kami</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Hamzatul Wasl digugurkan.</li><li>Idgham Syamsi pada ص.</li><li>Ra Tafkhim.</li><li>Mad Thabi'i (ط+alif).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">ٱلصِّرَٰطَ</div><div class="pemisah">⬇️</div><div class="makna">Jalan</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Idgham Qamari (lam jelas).</li><li>Mad Thabi'i (قِي).</li><li>Mad 'Arid Lissukun (waqaf).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">ٱلْمُسْتَقِيمَ</div><div class="pemisah">⬇️</div><div class="makna">Yang lurus</div></div>
+            </div>
+            <div class="terjemahan-penuh">✨ Tunjukilah kami jalan yang lurus.</div>
+            <hr><div class="footnote">Ayat 6</div>
+        </div>
+
+        <!-- Ayat 7 -->
+        <div class="ayat-content" id="ayat-7">
+            <div class="ayat-penuh">صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ</div>
+            <hr>
+            <div class="container">
+                <div class="kalimah-box"><ul class="tajwid"><li>Idgham Syamsi ص.</li><li>Ra Tafkhim.</li><li>Mad Thabi'i (ط+alif).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">صِرَٰطَ</div><div class="pemisah">⬇️</div><div class="makna">Jalan</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Idgham Syamsi pada ل.</li><li>Mad Thabi'i (ذِي).</li><li>Mad 'Arid Lissukun (waqaf).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">ٱلَّذِينَ</div><div class="pemisah">⬇️</div><div class="makna">Orang-orang yang</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Izhar Halqi (نْ+ع).</li><li>Mad Thabi'i (ع+alif).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">أَنْعَمْتَ</div><div class="pemisah">⬇️</div><div class="makna">Engkau telah kurniakan nikmat</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Harf Lin (لَيْ).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">عَلَيْهِمْ</div><div class="pemisah">⬇️</div><div class="makna">Kepada mereka</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Harf Lin (غَيْ).</li><li>Ra Tarqiq (nipis).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">غَيْرِ</div><div class="pemisah">⬇️</div><div class="makna">Bukan</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Idgham Qamari (ل م).</li><li>Mad Thabi'i (ضُو).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">ٱلْمَغْضُوبِ</div><div class="pemisah">⬇️</div><div class="makna">Orang-orang yang dimurkai</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Harf Lin (لَيْ).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">عَلَيْهِمْ</div><div class="pemisah">⬇️</div><div class="makna">Kepada mereka</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Wau Athaf.</li><li>Mad Thabi'i (لَا).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">وَلَا</div><div class="pemisah">⬇️</div><div class="makna">Dan bukan</div></div>
+                <div class="kalimah-box"><ul class="tajwid"><li>Idgham Syamsi pada ض.</li><li>Mad Thabi'i (ضَّا).</li><li>Mad Thabi'i (لِّي).</li><li>Mad 'Arid Lissukun (waqaf).</li></ul><div class="pemisah">⬇️</div><div class="arab-kalimah">ٱلضَّآلِّينَ</div><div class="pemisah">⬇️</div><div class="makna">Orang-orang yang sesat</div></div>
+            </div>
+            <div class="terjemahan-penuh">✨ Iaitu jalan orang-orang yang Engkau telah kurniakan nikmat kepada mereka, bukan (jalan) orang-orang yang Engkau telah murkai, dan bukan pula (jalan) orang-orang yang sesat.</div>
+            <hr><div class="footnote">Ayat 7</div>
+        </div>
+    </div>
+
+    <script>
+        // Theme switching
+        const body = document.body;
+        const lightBtn = document.getElementById('theme-light');
+        const darkBtn = document.getElementById('theme-dark');
+        const coffeeBtn = document.getElementById('theme-coffee');
+
+        function setTheme(theme) {
+            body.classList.remove('dark', 'coffee', 'light');
+            body.classList.add(theme);
+            localStorage.setItem('alfatihah-theme', theme);
+        }
+
+        lightBtn.addEventListener('click', () => setTheme('light'));
+        darkBtn.addEventListener('click', () => setTheme('dark'));
+        coffeeBtn.addEventListener('click', () => setTheme('coffee'));
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('alfatihah-theme');
+        if (savedTheme) {
+            setTheme(savedTheme);
+        } else {
+            setTheme('light'); // default
+        }
+
+        // Tab switching
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const ayatContents = document.querySelectorAll('.ayat-content');
+
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const ayatNumber = btn.getAttribute('data-ayat');
+                // Remove active from all
+                tabButtons.forEach(b => b.classList.remove('active'));
+                ayatContents.forEach(div => div.classList.remove('active'));
+                // Activate selected
+                btn.classList.add('active');
+                document.getElementById(`ayat-${ayatNumber}`).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
+```
